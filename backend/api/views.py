@@ -12,6 +12,7 @@ from rest_framework.decorators import api_view, permission_classes
 from .models import *
 from datetime import datetime
 # from .orc_tools import *
+from .serializer import *
 
 # Create your views here.
 
@@ -43,6 +44,30 @@ def createProfile(request):
     user.profile.save()
 
     return Response(status=status.HTTP_200_OK)
+
+
+@api_view(['DELETE'])
+def delete_transaction(request, transaction_id):
+    print(transaction_id)
+    transaction = Transaction.objects.get(id=transaction_id)
+    print(transaction)
+    transaction.delete()
+    return Response(status=status.HTTP_200_OK)
+
+
+# @permission_classes([IsAuthenticated])
+@api_view(['GET'])
+def getProfile(request, user_id):
+
+    if request.method == 'GET':
+        user = User.objects.get(id=user_id)
+
+        perfil_serializer = ProfileSerializer(user.profile, many=False)
+
+        data = {'perfil': perfil_serializer.data}
+        return Response({'response': data}, status=status.HTTP_200_OK)
+
+    return Response({}, status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
@@ -134,13 +159,13 @@ def upload_transactions_file(request):
     document = Document.objects.create(
         doc_file=file, document_date=datetime.now())
     document.save()
-    
+
     context = orc(document.doc_file.path)
     transaction = Transaction.objects.create(
         description=context['transactions']['descricao'], amount=context['transactions']['valor'], date=context['transactions']['data'], category=context['transactions']['category'])
     transaction.save()
     bank = Bank_Account.objects.create(
-        bank_name=context['bank']['bank_name'],bank_code=context['bank']['bank_code'], account_number=context['account']['account_number'],acount_name=context['account']['account_name'])
+        bank_name=context['bank']['bank_name'], bank_code=context['bank']['bank_code'], account_number=context['account']['account_number'], acount_name=context['account']['account_name'])
     bank.save()
     data = []
     data.append({
@@ -150,7 +175,6 @@ def upload_transactions_file(request):
         'date': context['transactions']['data'],
         'category': context['transactions']['category']
     })
-
 
     return Response({'response': data}, status=status.HTTP_200_OK)
 

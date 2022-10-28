@@ -12,6 +12,9 @@ class Profile(models.Model):
     phone = models.CharField(max_length=20, null=True, blank=True)
     cpf = models.CharField(max_length=11, null=True, blank=True)
 
+    def __str__(self):
+        return self.name
+
 
 class Document(models.Model):
 

@@ -12,5 +12,8 @@ urlpatterns = [
     path('test/', views.testEndPoint, name='test'),
     path('', views.getRoutes),
     path('transactions/', views.upload_transactions_info, name='transactions'),
+    path('transactions/<int:transaction_id>',
+         views.delete_transaction, name='transactions'),
     path('profile/', views.createProfile, name='profile'),
+    path('profile/<int:user_id>', views.getProfile, name='profile'),
 ]
