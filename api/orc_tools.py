@@ -72,7 +72,7 @@ def orc(path):
     if not path.endswith('.pdf') or path.endswith('extrato_itau.pdf'):  
         # Utilizando extrato_itau como exemplo, se o cliente mandou o extrato pdf,
         # o conversor de pdf acima é executado, depois o código abaixo
-        path = '../../static/media/extrato/extrato_itau.jpeg'
+        path = '../static/media/extrato/extrato_itau.jpeg'
         final_image = process_image_for_ocr(path)
         pytesseract.pytesseract.tesseract_cmd = r'/usr/local/bin/tesseract'
         context = {}
@@ -193,7 +193,7 @@ def orc(path):
     # return context['transactions'], context['bank'], context['account']
 
 if __name__ == '__main__':
-    orc('../../static/media/extrato/extrato_itau.jpeg')
+    orc('../static/media/extrato/extrato_itau.jpeg')
 
 # imagem = orc('../static/media/extrato/extrato_itau.jpeg')
 # print(imagem)
