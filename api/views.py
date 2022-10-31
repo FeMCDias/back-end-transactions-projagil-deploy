@@ -59,7 +59,7 @@ def createProfile(request):
                 user=user,
                 description=transaction[0][4],
                 amount=float(transaction[0][2].replace(',', '.'),
-                date=(datetime.strptime(transactions[0][0][3], '%d/%m/%y')),
+                date=(datetime.strptime(transactions[0][3], '%d/%m/%y')),
                 category='OUTROS')
             )
             transaction_create.save()
