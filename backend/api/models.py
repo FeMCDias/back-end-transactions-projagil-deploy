@@ -15,7 +15,13 @@ class Profile(models.Model):
     def __str__(self):
         return self.name
 
-
+class Bank_Account(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    bank_name = models.CharField(max_length=100)
+    bank_code = models.CharField(max_length=100)
+    account_number = models.CharField(max_length=100)
+    account_name = models.CharField(max_length=100)
+    
 class Document(models.Model):
 
     doc_file = models.FileField(upload_to='documents/%Y/%m/%d')
