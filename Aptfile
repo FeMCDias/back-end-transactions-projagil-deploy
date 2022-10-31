@@ -1,0 +1,10 @@
+gunicorn
+tesseract-ocr
+tesseract-ocr-eng
+libsm6
+libxrender1
+libfontconfig1
+libice6
+poppler
+postgresql@14
+python-opencv
