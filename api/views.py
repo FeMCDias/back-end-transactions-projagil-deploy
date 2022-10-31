@@ -13,6 +13,8 @@ from .models import *
 from datetime import datetime
 from .orc_tools import *
 from .serializer import *
+import requests
+from datetime import datetime
 
 # Create your views here.
 
@@ -42,6 +44,26 @@ def createProfile(request):
     user.profile.phone = data['phone']
     user.profile.cpf = data['cpf']
     user.profile.save()
+
+    cpf = data['cpf']
+
+    url = f'https://projagil-transactions.herokuapp.com/user/{cpf}'
+    request = requests.get(url)
+
+    if 'error' in request.keys():
+        pass
+    else:
+        transactions = request['transactions']
+        for transaction in transactions:
+            transaction_create = Transaction.objects.create(
+                user=user,
+                description=transaction[0][4],
+                amount=float(transaction[0][2].replace(',', '.'),
+                date=(datetime.strptime(transactions[0][0][3], '%d/%m/%y')),
+                category='OUTROS')
+            )
+            transaction_create.save()
+
 
     return Response(status=status.HTTP_200_OK)
 
