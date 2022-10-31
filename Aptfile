@@ -5,5 +5,5 @@ libsm6
 libxrender1
 libfontconfig1
 libice6
-postgresql@14
+postgresql
 python-opencv
